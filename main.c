@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+/*
 char *execute_command(const char *command) {
     char buffer[128];
     char *result = NULL;
@@ -21,6 +22,7 @@ char *execute_command(const char *command) {
         pclose(pipe);
     }
 }
+*/
 
 void file_set_callback(GtkFileChooserDialog *dialog, gint response_id, gpointer user_data) {
     if (response_id == GTK_RESPONSE_ACCEPT) {
@@ -70,6 +72,25 @@ int main(int argc, char *argv[]) {
     gtk_container_add(GTK_CONTAINER(window), hbox);
     GtkWidget *hbox4 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_container_add(GTK_CONTAINER(window), hbox);
+
+    GtkWidget *ap, *bl, *csc, *cp, *home;
+    GtkWidget *entryap, *entrybl, *entrycsc, *entrycp, *entryhome;
+    GtkWidget *button, *button1, *button2, *button3, *button4;
+
+
+    int *file_field[4][2] = {
+        {ap, entryap, button},
+        {bl, entrybl, button1},
+        {csc, entrycsc, button2},
+        {cp, entrycp, button3},
+        {home, entryhome, button4}
+    }
+
+    for(int i = 0; i < 5; i++) {
+        char label[] = toupper(file_field[i][0]);
+        GtkWidget file_field[i][0] = gtk_label_new(file_field[i][0]);
+        gtk_box_pack_start(GTK_BOX(hbox), file_field[i][0], FALSE, FALSE, 0);
+    }
 
     GtkWidget *ap = gtk_label_new("AP");
     GtkWidget *entryap = gtk_entry_new();
@@ -126,11 +147,10 @@ int main(int argc, char *argv[]) {
 
 
     gtk_box_pack_start(GTK_BOX(vbox), title, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox3, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox4, FALSE, FALSE, 0);
+    int *hboxes[5] = {hbox, hbox1, hbox2, hbox3, hbox4};
+    for(int i = 0; i < 5; i++) {
+        gtk_box_pack_start(GTK_BOX(vbox), hboxes[i], FALSE, FALSE, 0);
+    }
 
     g_signal_connect(button, "clicked", G_CALLBACK(browse_button_clicked), entryap);
     g_signal_connect(button1, "clicked", G_CALLBACK(browse_button_clicked), entrybl);
